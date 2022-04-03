@@ -1,0 +1,76 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: hsl(240, 3%, 7%);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 1em;
+  font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(auto, 1.25em));
+  grid-auto-rows: 2.3em;
+  gap: 0.25em;
+  justify-content: center;
+}
+
+.key {
+  display: flex;
+  grid-column: span 2;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  );
+  border: 0.25em;
+  border: none;
+  border-radius: 0.25em;
+  color: #ffffff;
+  cursor: pointer;
+  fill: #ffffff;
+  font-size: inherit;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.key.large {
+  grid-column: span 3;
+}
+
+.key > svg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.key.wrong {
+  --lightness: 23%;
+}
+
+.key.wrong-location {
+  --hue: 45;
+  --saturation: 97%;
+  --lightness: 50%;
+}
+
+.key.correct {
+  --hue: 115;
+  --saturation: 29%;
+  --lightness: 43%;
+}
+
+.key:hover,
+.key:focus {
+  --lightness-offset: 10%;
+  outline: none;
+}
