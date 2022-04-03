@@ -14,7 +14,13 @@ export const pressKey = (key) => {
 };
 
 export const submitGuess = () => {
-  console.log("submitGuess()");
+  const activeTiles = [...getActiveTiles()];
+  const guess = activeTiles.reduce(
+    (word, tile) => (word += tile.dataset.letter),
+    ""
+  );
+
+  console.log("submitGuess()", guess);
 };
 
 export const deleteKey = () => {
