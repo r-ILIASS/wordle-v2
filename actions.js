@@ -1,5 +1,5 @@
 import { WORD_LENGTH } from "./settings.js";
-import { guessGrid, getActiveTiles } from "./dom.js";
+import { guessGrid, getActiveTiles, alertContainer } from "./dom.js";
 
 // Actions
 export const pressKey = (key) => {
@@ -15,6 +15,12 @@ export const pressKey = (key) => {
 
 export const submitGuess = () => {
   const activeTiles = [...getActiveTiles()];
+
+  if (activeTiles.length < WORD_LENGTH) {
+    showAlert("Not enough letters!");
+    return;
+  }
+
   const guess = activeTiles.reduce(
     (word, tile) => (word += tile.dataset.letter),
     ""
@@ -33,4 +39,22 @@ export const deleteKey = () => {
   delete lastTile.dataset.letter;
   delete lastTile.dataset.state;
   return;
+};
+
+// Alert
+const showAlert = (message, duration = 1000) => {
+  const alert = document.createElement("div");
+  alert.textContent = message;
+  alert.classList.add("alert");
+  alertContainer.prepend(alert);
+
+  if (duration == null) return;
+
+  setTimeout(() => {
+    alert.classList.add("hide");
+
+    alert.addEventListener("transitionend", () => {
+      alert.remove();
+    });
+  }, duration);
 };
