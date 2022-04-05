@@ -1,5 +1,6 @@
 import { WORD_LENGTH } from "./settings.js";
 import { guessGrid, getActiveTiles, alertContainer } from "./dom.js";
+import { showAlert, shakeTiles } from "./eyeCandy.js";
 
 // Actions
 export const pressKey = (key) => {
@@ -17,7 +18,7 @@ export const submitGuess = () => {
   const activeTiles = [...getActiveTiles()];
 
   if (activeTiles.length < WORD_LENGTH) {
-    showAlert("Not enough letters!");
+    showAlert("Not enough letters!", alertContainer);
     shakeTiles(activeTiles);
     return;
   }
@@ -40,37 +41,4 @@ export const deleteKey = () => {
   delete lastTile.dataset.letter;
   delete lastTile.dataset.state;
   return;
-};
-
-// Alert
-const showAlert = (message, duration = 1000) => {
-  const alert = document.createElement("div");
-  alert.textContent = message;
-  alert.classList.add("alert");
-  alertContainer.prepend(alert);
-
-  if (duration == null) return;
-
-  setTimeout(() => {
-    alert.classList.add("hide");
-
-    alert.addEventListener("transitionend", () => {
-      alert.remove();
-    });
-  }, duration);
-};
-
-// Shaking animation
-const shakeTiles = (activeTiles) => {
-  activeTiles.forEach((tile) => {
-    tile.classList.add("shake");
-
-    tile.addEventListener(
-      "animationend",
-      () => {
-        tile.classList.remove("shake");
-      },
-      { once: true }
-    );
-  });
 };
