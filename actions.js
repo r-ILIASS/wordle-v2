@@ -14,6 +14,19 @@ export const pressKey = (key) => {
   return;
 };
 
+export const deleteKey = () => {
+  const activeTiles = getActiveTiles();
+  const lastTile = activeTiles[activeTiles.length - 1];
+
+  if (activeTiles.length === 0) return;
+
+  lastTile.textContent = "";
+  delete lastTile.dataset.letter;
+  delete lastTile.dataset.state;
+  return;
+};
+
+// Submit
 export const submitGuess = () => {
   const activeTiles = [...getActiveTiles()];
 
@@ -29,16 +42,4 @@ export const submitGuess = () => {
   );
 
   console.log("submitGuess()", guess);
-};
-
-export const deleteKey = () => {
-  const activeTiles = getActiveTiles();
-  const lastTile = activeTiles[activeTiles.length - 1];
-
-  if (activeTiles.length === 0) return;
-
-  lastTile.textContent = "";
-  delete lastTile.dataset.letter;
-  delete lastTile.dataset.state;
-  return;
 };
