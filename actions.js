@@ -18,6 +18,7 @@ export const submitGuess = () => {
 
   if (activeTiles.length < WORD_LENGTH) {
     showAlert("Not enough letters!");
+    shakeTiles(activeTiles);
     return;
   }
 
@@ -57,4 +58,19 @@ const showAlert = (message, duration = 1000) => {
       alert.remove();
     });
   }, duration);
+};
+
+// Shaking animation
+const shakeTiles = (activeTiles) => {
+  activeTiles.forEach((tile) => {
+    tile.classList.add("shake");
+
+    tile.addEventListener(
+      "animationend",
+      () => {
+        tile.classList.remove("shake");
+      },
+      { once: true }
+    );
+  });
 };
