@@ -1,8 +1,9 @@
 import { WORD_LENGTH } from "./settings.js";
+import { dictionary, targetWords } from "./db.js";
 import { guessGrid, getActiveTiles, alertContainer } from "./dom.js";
 import { showAlert, shakeTiles } from "./eyeCandy.js";
 
-// Actions
+// Input Actions
 export const pressKey = (key) => {
   const activeTiles = getActiveTiles();
   if (activeTiles.length === WORD_LENGTH) return;
@@ -40,6 +41,12 @@ export const submitGuess = () => {
     (word, tile) => (word += tile.dataset.letter),
     ""
   );
+
+  if (!dictionary.includes(guess)) {
+    showAlert("This is not a word", alertContainer);
+    shakeTiles(activeTiles);
+    return;
+  }
 
   console.log("submitGuess()", guess);
 };
