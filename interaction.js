@@ -11,9 +11,9 @@ const stop = () => {
   console.log("interaction stopped");
 };
 
-const interaction = {
+const Interaction = {
   start,
   stop,
 };
 
-export default interaction;
+export default Interaction;

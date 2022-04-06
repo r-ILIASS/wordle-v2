@@ -15290,3 +15290,9 @@ export const targetWords = [
   "rural",
   "shave",
 ];
+
+// Figuring out a new target word each day.
+const offsetFromDate = new Date(2022, 2, 30);
+const msOffset = Date.now() - offsetFromDate;
+const dayOffset = msOffset / 1000 / 60 / 60 / 24;
+export const targetWord = targetWords[Math.floor(dayOffset)];

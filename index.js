@@ -1,3 +1,3 @@
-import interaction from "./interaction.js";
+import Interaction from "./interaction.js";
 
-interaction.start();
+Interaction.start();
