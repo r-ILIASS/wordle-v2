@@ -1,4 +1,4 @@
-import { keyboard, alertContainer } from "./dom.js";
+import { keyboard, alertContainer, guessGrid } from "./dom.js";
 import { targetWord } from "./db.js";
 import Interaction from "./interaction.js";
 
@@ -68,7 +68,13 @@ export const flipTile = (tile, index, array, guess) => {
       tile.classList.remove("flip");
 
       if (index === array.length - 1) {
-        checkWinLose(guess, array);
+        tile.addEventListener(
+          "transitionend",
+          () => {
+            checkWinLose(guess, array);
+          },
+          { once: true }
+        );
       }
     },
     { once: true }
@@ -95,7 +101,15 @@ const checkWinLose = (guess, tiles) => {
   if (guess === targetWord) {
     danceTiles(tiles);
     showAlert("You won!", null);
-  } else {
-    Interaction.start();
+    return;
   }
+
+  const remainingTiles = guessGrid.querySelectorAll(":not([data-letter])");
+  if (remainingTiles.length === 0) {
+    showAlert("Try again tomorrow", null);
+    showAlert(`Answer: ${targetWord.toUpperCase()}`, null);
+    return;
+  }
+
+  Interaction.start();
 };

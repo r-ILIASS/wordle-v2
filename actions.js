@@ -9,7 +9,7 @@ export const pressKey = (key) => {
   const activeTiles = getActiveTiles();
   if (activeTiles.length === WORD_LENGTH) return;
 
-  const nextTile = guessGrid.querySelector(':not([data-state="active"])');
+  const nextTile = guessGrid.querySelector(":not([data-letter])");
   nextTile.dataset.state = "active";
   nextTile.dataset.letter = key.toLowerCase();
   nextTile.textContent = key;
