@@ -1,7 +1,9 @@
 import { keyboard, alertContainer } from "./dom.js";
 import { targetWord } from "./db.js";
+import Interaction from "./interaction.js";
 
 const FLIP_ANIMATION_DURATION = 500;
+const DANCE_ANIMATION_DURATION = 500;
 
 // Alert
 export const showAlert = (message, duration = 1000) => {
@@ -46,21 +48,54 @@ export const flipTile = (tile, index, array, guess) => {
     tile.classList.add("flip");
   }, index * FLIP_ANIMATION_DURATION);
 
-  tile.addEventListener("transitionend", () => {
-    if (letter === targetWord[index]) {
-      tile.dataset.state = "correct";
-      key.classList.add("correct");
-    }
-    if (targetWord.includes(letter) && letter !== targetWord[index]) {
-      tile.dataset.state = "wrong-location";
-      key.classList.add("wrong-location");
-    }
-    if (!targetWord.includes(letter)) {
-      tile.dataset.state = "wrong";
-      key.classList.add("wrong");
-    }
+  tile.addEventListener(
+    "transitionend",
+    () => {
+      if (letter === targetWord[index]) {
+        tile.dataset.state = "correct";
+        key.classList.add("correct");
+      }
+      if (targetWord.includes(letter) && letter !== targetWord[index]) {
+        tile.dataset.state = "wrong-location";
+        key.classList.add("wrong-location");
+      }
+      if (!targetWord.includes(letter)) {
+        tile.dataset.state = "wrong";
+        key.classList.add("wrong");
+      }
 
-    // second 90deg flip
-    tile.classList.remove("flip");
+      // second 90deg flip
+      tile.classList.remove("flip");
+
+      if (index === array.length - 1) {
+        checkWinLose(guess, array);
+      }
+    },
+    { once: true }
+  );
+};
+
+const danceTiles = (tiles) => {
+  tiles.forEach((tile, index) => {
+    setTimeout(() => {
+      tile.classList.add("dance");
+
+      tile.addEventListener(
+        "animationend",
+        () => {
+          tile.classList.remove("dance");
+        },
+        { once: true }
+      );
+    }, (index * DANCE_ANIMATION_DURATION) / 5);
   });
+};
+
+const checkWinLose = (guess, tiles) => {
+  if (guess === targetWord) {
+    danceTiles(tiles);
+    showAlert("You won!", null);
+  } else {
+    Interaction.start();
+  }
 };
